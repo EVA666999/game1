@@ -1,30 +1,30 @@
 import getpass
 
-def gues(word, gues_word):
-    words = []
-    for char in gues_word:
-        if char in word:
-            words.append(char)
-    return list(set(words))
+def guess(word, guess_word):
+    letters = []
+    for char in guess_word:
+        if char in word and char not in letters:
+            letters.append(char)
+    return letters
 
 word = getpass.getpass("Введите слово, которое нужно угадать: ")
 
-guessed_letters = set()
+guessed_letters = []
 correct_order = False
 while sorted(guessed_letters) != sorted(word):
-    gues_word = input("Введите вариант: ")
-    result = gues(word, gues_word)
-    guessed_letters.update(result)
-    print(sorted(list(guessed_letters)))
+    guess_word = input("Введите вариант: ")
+    result = guess(word, guess_word)
+    guessed_letters.extend(result)
+    print(sorted(guessed_letters))
 
-    if list(word) == sorted(list(guessed_letters)):
+    if list(word) == sorted(guessed_letters):
         correct_order = True
         break
 
 if correct_order:
     print("Поздравляю, вы угадали слово!")
 else:
-    print("Ты угадал все буквы, теперь угадай слово, которое состоит из этих букв")
+    print("Вы угадали все буквы. Теперь угадайте слово, которое состоит из этих букв.")
 
 guess_attempts = 3
 while not correct_order and guess_attempts > 0:
@@ -37,4 +37,4 @@ while not correct_order and guess_attempts > 0:
         if guess_attempts > 0:
             print("Вы не угадали слово. Осталось попыток:", guess_attempts)
         else:
-            print("У вас закончились попытки. Слово: ", word)
+            print("У вас закончились попытки. Слово:", word)
